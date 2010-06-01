@@ -22,3 +22,4 @@ patch -p1 < ../patches/linux-2.6.35-omap-rx51-Add-platform_data-for-tlv320aic3x-
 patch -p1 < ../patches/linux-2.6.34-omap-clock-rate-parent-change.patch
 patch -p1 < ../patches/linux-2.6.34-omap-PM-export-missing-symbols.patch
 patch -p1 < ../patches/linux-2.6.34-omap-graphics-driver.patch
+patch -p1 < ../patches/linux-2.6.35-omap-rx51-bluetooth.patch
