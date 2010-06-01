@@ -1,0 +1,104 @@
+diff -rupN linux-2.6.34.orig/arch/arm/configs/rx51_defconfig linux-2.6.34/arch/arm/configs/rx51_defconfig
+--- linux-2.6.34.orig/arch/arm/configs/rx51_defconfig	2010-06-01 21:22:03.831356653 +0930
++++ linux-2.6.34/arch/arm/configs/rx51_defconfig	2010-06-01 22:29:01.235355711 +0930
+@@ -801,6 +801,7 @@ CONFIG_INPUT_TOUCHSCREEN=y
+ # CONFIG_TOUCHSCREEN_TOUCHWIN is not set
+ # CONFIG_TOUCHSCREEN_USB_COMPOSITE is not set
+ # CONFIG_TOUCHSCREEN_TOUCHIT213 is not set
++CONFIG_TOUCHSCREEN_TSC2005=m
+ # CONFIG_TOUCHSCREEN_TSC2007 is not set
+ CONFIG_INPUT_MISC=y
+ # CONFIG_INPUT_ATI_REMOTE is not set
+diff -rupN linux-2.6.34.orig/arch/arm/mach-omap2/board-rx51-peripherals.c linux-2.6.34/arch/arm/mach-omap2/board-rx51-peripherals.c
+--- linux-2.6.34.orig/arch/arm/mach-omap2/board-rx51-peripherals.c	2010-06-01 22:13:32.507350930 +0930
++++ linux-2.6.34/arch/arm/mach-omap2/board-rx51-peripherals.c	2010-06-01 22:29:01.259355184 +0930
+@@ -14,6 +14,7 @@
+ #include <linux/input.h>
+ #include <linux/input/matrix_keypad.h>
+ #include <linux/spi/spi.h>
++#include <linux/spi/tsc2005.h>
+ #include <linux/spi/wl12xx.h>
+ #include <linux/i2c.h>
+ #include <linux/i2c/twl.h>
+@@ -42,6 +43,9 @@
+ #define RX51_WL1251_POWER_GPIO		87
+ #define RX51_WL1251_IRQ_GPIO		42
+ 
++#define RX51_TSC2005_RESET_GPIO		104
++#define RX51_TSC2005_IRQ_GPIO		100
++
+ /* list all spi devices here */
+ enum {
+ 	RX51_SPI_WL1251,
+@@ -50,6 +54,7 @@ enum {
+ };
+ 
+ static struct wl12xx_platform_data wl1251_pdata;
++static struct tsc2005_platform_data tsc2005_pdata;
+ 
+ static struct omap2_mcspi_device_config wl1251_mcspi_config = {
+ 	.turbo_mode	= 0,
+@@ -87,10 +92,10 @@ static struct spi_board_info rx51_periph
+ 		.modalias		= "tsc2005",
+ 		.bus_num		= 1,
+ 		.chip_select		= 0,
+-		/* .irq = OMAP_GPIO_IRQ(RX51_TSC2005_IRQ_GPIO),*/
++		.irq			= OMAP_GPIO_IRQ(RX51_TSC2005_IRQ_GPIO),
+ 		.max_speed_hz		= 6000000,
+ 		.controller_data	= &tsc2005_mcspi_config,
+-		/* .platform_data = &tsc2005_config,*/
++		.platform_data		= &tsc2005_pdata,
+ 	},
+ };
+ 
+@@ -746,6 +751,42 @@ static inline void board_onenand_init(vo
+ 
+ #endif
+ 
++static struct tsc2005_platform_data tsc2005_pdata = {
++	.ts_pressure_max   = 2048,
++	.ts_pressure_fudge = 2,
++	.ts_x_max	   = 4096,
++	.ts_x_fudge	   = 4,
++	.ts_y_max	   = 4096,
++	.ts_y_fudge	   = 7,
++	.ts_x_plate_ohm	   = 280,
++	.esd_timeout_ms	   = 8000,
++};
++
++static void rx51_tsc2005_set_reset(bool enable)
++{
++	gpio_set_value(RX51_TSC2005_RESET_GPIO, enable);
++}
++
++static void __init rx51_init_tsc2005(void)
++{
++	int r;
++
++	r = gpio_request(RX51_TSC2005_IRQ_GPIO, "tsc2005 IRQ");
++	if (r >= 0)
++		gpio_direction_input(RX51_TSC2005_IRQ_GPIO);
++	else
++		printk(KERN_ERR "unable to get %s GPIO\n", "tsc2005 IRQ");
++
++	r = gpio_request(RX51_TSC2005_RESET_GPIO, "tsc2005 reset");
++	if (r >= 0) {
++		gpio_direction_output(RX51_TSC2005_RESET_GPIO, 1);
++		tsc2005_pdata.set_reset = rx51_tsc2005_set_reset;
++	} else {
++		printk(KERN_ERR "unable to get %s GPIO\n", "tsc2005 reset");
++		tsc2005_pdata.esd_timeout_ms = 0;
++	}
++}
++
+ #if defined(CONFIG_SMC91X) || defined(CONFIG_SMC91X_MODULE)
+ 
+ static struct omap_smc91x_platform_data board_smc91x_data = {
+@@ -830,6 +871,7 @@ void __init rx51_peripherals_init(void)
+ 	board_smc91x_init();
+ 	rx51_add_gpio_keys();
+ 	rx51_init_wl1251();
++	rx51_init_tsc2005();
+ 	spi_register_board_info(rx51_peripherals_spi_board_info,
+ 				ARRAY_SIZE(rx51_peripherals_spi_board_info));
+ 	omap2_hsmmc_init(mmc);
