@@ -84,7 +84,7 @@ diff -rupN linux-2.6.34.orig/arch/arm/mach-omap2/board-rx51-peripherals.c linux-
 +	gpio_direction_output(RX51_HCI_H4P_BTWU_GPIO, 0);
 +	gpio_direction_input(RX51_HCI_H4P_HOSTWU_GPIO);
 +
-+	bt_plat_data.uart_base = ioremap(OMAP_UART2_BASE, SZ_2K);
++	bt_plat_data.uart_base = ioremap(OMAP3_UART2_BASE, SZ_2K);
 +
 +	err = platform_device_register(&rx51_bt_device);
 +	if (!err)
