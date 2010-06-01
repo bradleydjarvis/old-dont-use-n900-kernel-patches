@@ -1,0 +1,12 @@
+diff -rupN linux-2.6.34.orig/drivers/watchdog/twl4030_wdt.c linux-2.6.34/drivers/watchdog/twl4030_wdt.c
+--- linux-2.6.34.orig/drivers/watchdog/twl4030_wdt.c	2010-06-01 21:23:47.323356476 +0930
++++ linux-2.6.34/drivers/watchdog/twl4030_wdt.c	2010-06-02 00:07:46.527352271 +0930
+@@ -190,6 +190,8 @@ static int __devinit twl4030_wdt_probe(s
+ 
+ 	twl4030_wdt_dev = pdev;
+ 
++	twl4030_wdt_disable(wdt);
++
+ 	ret = misc_register(&wdt->miscdev);
+ 	if (ret) {
+ 		dev_err(wdt->miscdev.parent,
