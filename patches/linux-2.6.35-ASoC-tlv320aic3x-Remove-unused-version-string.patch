@@ -1,0 +1,12 @@
+diff -rupN linux-2.6.34.orig/sound/soc/codecs/tlv320aic3x.c linux-2.6.34/sound/soc/codecs/tlv320aic3x.c
+--- linux-2.6.34.orig/sound/soc/codecs/tlv320aic3x.c	2010-06-01 21:24:15.451354239 +0930
++++ linux-2.6.34/sound/soc/codecs/tlv320aic3x.c	2010-06-01 22:36:13.239356629 +0930
+@@ -50,8 +50,6 @@
+ 
+ #include "tlv320aic3x.h"
+ 
+-#define AIC3X_VERSION "0.2"
+-
+ /* codec private data */
+ struct aic3x_priv {
+ 	struct snd_soc_codec codec;

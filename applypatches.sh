@@ -9,3 +9,13 @@ patch -p1 < ../patches/linux-2.6.35-OMAP-RX51-Add-vdds_sdi-supply-voltage-for-SD
 patch -p1 < ../patches/linux-2.6.35-OMAP-RX51-Add-Touch-Controller-in-SPI-board-info.patch
 patch -p1 < ../patches/linux-2.6.35-input-touchscreen-introduce-tsc2005-driver.patch
 patch -p1 < ../patches/linux-2.6.35-omap-rx-51-enable-tsc2005.patch
+patch -p1 < ../patches/linux-2.6.35-ASoC-tlv320aic3x-Remove-unused-version-string.patch
+patch -p1 < ../patches/linux-2.6.35-ASoC-tlv320aic3x-Remove-needless-power-off-from-aic3.patch
+patch -p1 < ../patches/linux-2.6.35-ASoC-tlv320aic3x-Change-bias-management-semantics.patch
+patch -p1 < ../patches/linux-2.6.35-ASoC-tlv320aic3x-Add-basic-regulator-support.patch
+patch -p1 < ../patches/linux-2.6.35-omap-rx51-Change-the-TWL4030-VMMC2-voltage-constrain.patch
+patch -p1 < ../patches/linux-2.6.35-omap-rx51-Add-i2c2-board_info-with-tlv320aic3x.patch
+patch -p1 < ../patches/linux-2.6.35-omap-rx51-Add-supplies-for-the-tlv320aic3x-codec-dri.patch
+patch -p1 < ../patches/linux-2.6.35-ASoC-omap-Add-basic-audio-support-for-Nokia-RX-51-N9.patch
+patch -p1 < ../patches/linux-2.6.35-ASoC-tlv320aic3x-Add-platform-data-and-reset-gpio-ha.patch
+patch -p1 < ../patches/linux-2.6.35-omap-rx51-Add-platform_data-for-tlv320aic3x-with-res.patch
