@@ -1,0 +1,79 @@
+diff -rupN linux-2.6.34.orig/drivers/video/omap2/dss/core.c linux-2.6.34/drivers/video/omap2/dss/core.c
+--- linux-2.6.34.orig/drivers/video/omap2/dss/core.c	2010-06-01 19:29:36.249750245 +0930
++++ linux-2.6.34/drivers/video/omap2/dss/core.c	2010-06-01 20:42:02.278100317 +0930
+@@ -526,11 +526,13 @@ static int omap_dss_probe(struct platfor
+ 	}
+ #endif
+ 
++#ifdef CONFIG_OMAP2_DSS_DPI
+ 	r = dpi_init(pdev);
+ 	if (r) {
+ 		DSSERR("Failed to initialize dpi\n");
+ 		goto fail0;
+ 	}
++#endif
+ 
+ 	r = dispc_init();
+ 	if (r) {
+@@ -601,7 +603,9 @@ static int omap_dss_remove(struct platfo
+ 	venc_exit();
+ #endif
+ 	dispc_exit();
++#ifdef CONFIG_OMAP2_DSS_DPI
+ 	dpi_exit();
++#endif
+ #ifdef CONFIG_OMAP2_DSS_RFBI
+ 	rfbi_exit();
+ #endif
+diff -rupN linux-2.6.34.orig/drivers/video/omap2/dss/display.c linux-2.6.34/drivers/video/omap2/dss/display.c
+--- linux-2.6.34.orig/drivers/video/omap2/dss/display.c	2010-06-01 19:29:36.269751428 +0930
++++ linux-2.6.34/drivers/video/omap2/dss/display.c	2010-06-01 20:40:33.877754502 +0930
+@@ -392,7 +392,9 @@ void dss_init_device(struct platform_dev
+ 	int r;
+ 
+ 	switch (dssdev->type) {
++#ifdef CONFIG_OMAP2_DSS_DPI
+ 	case OMAP_DISPLAY_TYPE_DPI:
++#endif
+ #ifdef CONFIG_OMAP2_DSS_RFBI
+ 	case OMAP_DISPLAY_TYPE_DBI:
+ #endif
+@@ -413,9 +415,11 @@ void dss_init_device(struct platform_dev
+ 	}
+ 
+ 	switch (dssdev->type) {
++#ifdef CONFIG_OMAP2_DSS_DPI
+ 	case OMAP_DISPLAY_TYPE_DPI:
+ 		r = dpi_init_display(dssdev);
+ 		break;
++#endif
+ #ifdef CONFIG_OMAP2_DSS_RFBI
+ 	case OMAP_DISPLAY_TYPE_DBI:
+ 		r = rfbi_init_display(dssdev);
+diff -rupN linux-2.6.34.orig/drivers/video/omap2/dss/Kconfig linux-2.6.34/drivers/video/omap2/dss/Kconfig
+--- linux-2.6.34.orig/drivers/video/omap2/dss/Kconfig	2010-06-01 19:29:36.245748690 +0930
++++ linux-2.6.34/drivers/video/omap2/dss/Kconfig	2010-06-01 20:40:33.857751328 +0930
+@@ -36,6 +36,12 @@ config OMAP2_DSS_COLLECT_IRQ_STATS
+ 	  <debugfs>/omapdss/dispc_irq for DISPC interrupts, and
+ 	  <debugfs>/omapdss/dsi_irq for DSI interrupts.
+ 
++config OMAP2_DSS_DPI
++	bool "DPI support"
++	default y
++	help
++	  DPI Interface. This is the Parallel Display Interface.
++
+ config OMAP2_DSS_RFBI
+ 	bool "RFBI support"
+         default n
+diff -rupN linux-2.6.34.orig/drivers/video/omap2/dss/Makefile linux-2.6.34/drivers/video/omap2/dss/Makefile
+--- linux-2.6.34.orig/drivers/video/omap2/dss/Makefile	2010-02-25 05:22:17.000000000 +1030
++++ linux-2.6.34/drivers/video/omap2/dss/Makefile	2010-06-01 20:40:33.861752453 +0930
+@@ -1,5 +1,6 @@
+ obj-$(CONFIG_OMAP2_DSS) += omapdss.o
+-omapdss-y := core.o dss.o dispc.o dpi.o display.o manager.o overlay.o
++omapdss-y := core.o dss.o dispc.o display.o manager.o overlay.o
++omapdss-$(CONFIG_OMAP2_DSS_DPI) += dpi.o
+ omapdss-$(CONFIG_OMAP2_DSS_RFBI) += rfbi.o
+ omapdss-$(CONFIG_OMAP2_DSS_VENC) += venc.o
+ omapdss-$(CONFIG_OMAP2_DSS_SDI) += sdi.o
