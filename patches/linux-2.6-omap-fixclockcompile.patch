@@ -1,0 +1,10 @@
+diff -rupN linux-2.6.34.orig/arch/arm/plat-omap/clock.c linux-2.6.34/arch/arm/plat-omap/clock.c
+--- linux-2.6.34.orig/arch/arm/plat-omap/clock.c	2010-06-01 23:42:50.531351625 +0930
++++ linux-2.6.34/arch/arm/plat-omap/clock.c	2010-06-02 01:30:53.363357241 +0930
+@@ -23,6 +23,7 @@
+ #include <linux/cpufreq.h>
+ #include <linux/debugfs.h>
+ #include <linux/io.h>
++#include <linux/slab.h>
+ 
+ #include <plat/clock.h>
