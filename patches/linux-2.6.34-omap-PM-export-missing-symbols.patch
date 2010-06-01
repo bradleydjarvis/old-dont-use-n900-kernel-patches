@@ -1,0 +1,30 @@
+diff -rupN linux-2.6.34.orig/arch/arm/plat-omap/clock.c linux-2.6.34/arch/arm/plat-omap/clock.c
+--- linux-2.6.34.orig/arch/arm/plat-omap/clock.c	2010-06-01 23:39:49.719352101 +0930
++++ linux-2.6.34/arch/arm/plat-omap/clock.c	2010-06-01 23:40:32.311355494 +0930
+@@ -547,6 +547,7 @@ cnr_out:
+ 
+ 	return r;
+ }
++EXPORT_SYMBOL(clk_notifier_register);
+ 
+ /*
+  * clk_notifier_unregister - remove a clock change notifier
+@@ -597,6 +598,7 @@ cnu_out:
+ 
+ 	return r;
+ }
++EXPORT_SYMBOL(clk_notifier_unregister);
+ 
+ 
+ /*-------------------------------------------------------------------------*/
+diff -rupN linux-2.6.34.orig/arch/arm/plat-omap/omap-pm-noop.c linux-2.6.34/arch/arm/plat-omap/omap-pm-noop.c
+--- linux-2.6.34.orig/arch/arm/plat-omap/omap-pm-noop.c	2010-02-25 05:22:17.000000000 +1030
++++ linux-2.6.34/arch/arm/plat-omap/omap-pm-noop.c	2010-06-01 23:40:32.323351565 +0930
+@@ -84,6 +84,7 @@ void omap_pm_set_min_bus_tput(struct dev
+ 	 * TI CDP code can call constraint_set here on the VDD2 OPP.
+ 	 */
+ }
++EXPORT_SYMBOL(omap_pm_set_min_bus_tput);
+ 
+ void omap_pm_set_max_dev_wakeup_lat(struct device *dev, long t)
+ {

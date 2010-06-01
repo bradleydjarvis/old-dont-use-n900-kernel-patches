@@ -19,3 +19,6 @@ patch -p1 < ../patches/linux-2.6.35-omap-rx51-Add-supplies-for-the-tlv320aic3x-c
 patch -p1 < ../patches/linux-2.6.35-ASoC-omap-Add-basic-audio-support-for-Nokia-RX-51-N9.patch
 patch -p1 < ../patches/linux-2.6.35-ASoC-tlv320aic3x-Add-platform-data-and-reset-gpio-ha.patch
 patch -p1 < ../patches/linux-2.6.35-omap-rx51-Add-platform_data-for-tlv320aic3x-with-res.patch
+patch -p1 < ../patches/linux-2.6.34-omap-clock-rate-parent-change.patch
+patch -p1 < ../patches/linux-2.6.34-omap-PM-export-missing-symbols.patch
+patch -p1 < ../patches/linux-2.6.34-omap-graphics-driver.patch
