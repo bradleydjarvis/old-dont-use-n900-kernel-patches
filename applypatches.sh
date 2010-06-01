@@ -24,3 +24,7 @@ patch -p1 < ../patches/linux-2.6.34-omap-PM-export-missing-symbols.patch
 patch -p1 < ../patches/linux-2.6.34-omap-graphics-driver.patch
 patch -p1 < ../patches/linux-2.6.35-omap-rx51-bluetooth.patch
 patch -p1 < ../patches/linux-2.6.35-twl4030_wdt-Disable-watchdog-in-probe.patch
+patch -p1 < ../patches/linux-2.6-omap-twl4030-Driver-for-twl4030-madc-module.patch
+patch -p1 < ../patches/linux-2.6-omap-n900-usb-musb-add-mA-and-charger-sysfs-entries.patch
+patch -p1 < ../patches/linux-2.6-omap-n900-usb-musb-add-suspend-sysfs-entry.patch
+patch -p1 < ../patches/linux-2.6-omap-n900-usb-otg-add-detect_charger-field-to-otg_transceive.patch

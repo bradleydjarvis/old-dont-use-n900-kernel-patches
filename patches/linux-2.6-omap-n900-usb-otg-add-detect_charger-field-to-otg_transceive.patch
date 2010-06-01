@@ -1,0 +1,28 @@
+diff -rupN linux-2.6.34.orig/include/linux/usb/otg.h linux-2.6.34/include/linux/usb/otg.h
+--- linux-2.6.34.orig/include/linux/usb/otg.h	2010-06-01 21:24:00.067354219 +0930
++++ linux-2.6.34/include/linux/usb/otg.h	2010-06-02 00:35:51.327351813 +0930
+@@ -117,6 +117,8 @@ struct otg_transceiver {
+ 	/* start or continue HNP role switch */
+ 	int	(*start_hnp)(struct otg_transceiver *otg);
+ 
++	/* detect a charger */
++	int	(*detect_charger)(struct otg_transceiver *otg) __deprecated;
+ };
+ 
+ 
+@@ -226,6 +228,15 @@ otg_start_srp(struct otg_transceiver *ot
+ 	return otg->start_srp(otg);
+ }
+ 
++static inline int
++otg_detect_charger(struct otg_transceiver *otg)
++{
++	if (otg->detect_charger)
++		return otg->detect_charger(otg);
++
++	return 0;
++}
++
+ /* notifiers */
+ static inline int
+ otg_register_notifier(struct otg_transceiver *otg, struct notifier_block *nb)
