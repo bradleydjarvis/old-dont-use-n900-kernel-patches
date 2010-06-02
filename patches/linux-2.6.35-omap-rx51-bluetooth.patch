@@ -982,7 +982,7 @@ diff -rupN linux-2.6.34.orig/drivers/bluetooth/hci_h4p/core.c linux-2.6.34/drive
 +	}
 +	info->hdev = hdev;
 +
-+	hdev->type = HCI_UART;
++	hdev->dev_type = HCI_UART;
 +	hdev->driver_data = info;
 +
 +	hdev->open = hci_h4p_hci_open;

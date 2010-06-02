@@ -1,15 +1,3 @@
-diff -rupN linux-2.6.34.orig/arch/arm/mach-omap2/board-rx51-peripherals.c linux-2.6.34/arch/arm/mach-omap2/board-rx51-peripherals.c
---- linux-2.6.34.orig/arch/arm/mach-omap2/board-rx51-peripherals.c	2010-06-02 00:05:07.003349988 +0930
-+++ linux-2.6.34/arch/arm/mach-omap2/board-rx51-peripherals.c	2010-06-02 00:58:54.919354886 +0930
-@@ -981,7 +981,7 @@ void __init rx51_bt_init(void)
- 	gpio_direction_output(RX51_HCI_H4P_BTWU_GPIO, 0);
- 	gpio_direction_input(RX51_HCI_H4P_HOSTWU_GPIO);
- 
--	bt_plat_data.uart_base = ioremap(OMAP_UART2_BASE, SZ_2K);
-+	bt_plat_data.uart_base = ioremap(OMAP3_UART2_BASE, SZ_2K);
- 
- 	err = platform_device_register(&rx51_bt_device);
- 	if (!err)
 diff -rupN linux-2.6.34.orig/include/sound/tlv320aic3x.h linux-2.6.34/include/sound/tlv320aic3x.h
 --- linux-2.6.34.orig/include/sound/tlv320aic3x.h	1970-01-01 09:30:00.000000000 +0930
 +++ linux-2.6.34/include/sound/tlv320aic3x.h	2010-06-02 01:13:14.939729701 +0930
